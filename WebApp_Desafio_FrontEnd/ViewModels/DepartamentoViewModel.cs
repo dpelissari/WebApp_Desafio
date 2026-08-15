@@ -1,8 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Xml.Linq;
 
 namespace WebApp_Desafio_FrontEnd.ViewModels
 {
@@ -13,9 +10,8 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
         [DataMember(Name = "ID")]
         public int ID { get; set; }
 
-        [Display(Name = "Descricao")]
+        [Display(Name = "Descrição")]
         [DataMember(Name = "Descricao")]
         public string Descricao { get; set; }
-
     }
 }

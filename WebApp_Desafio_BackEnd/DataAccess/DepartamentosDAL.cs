@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApp_Desafio_BackEnd.Models;
 
 namespace WebApp_Desafio_BackEnd.DataAccess
@@ -19,9 +14,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-
                     dbCommand.CommandText = "SELECT * FROM departamentos ";
-
                     dbConnection.Open();
 
                     using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
@@ -34,6 +27,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
 
                             if (!dataReader.IsDBNull(0))
                                 departamento.ID = dataReader.GetInt32(0);
+
                             if (!dataReader.IsDBNull(1))
                                 departamento.Descricao = dataReader.GetString(1);
 
@@ -47,6 +41,80 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             }
 
             return lstDepartamentos;
+        }
+
+        public Departamento ObterDepartamento(int idDepartamento)
+        {
+            var departamento = new Departamento();
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = "SELECT ID, Descricao FROM departamentos WHERE ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+                    dbConnection.Open();
+
+                    using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            departamento = new Departamento();
+
+                            if (!dataReader.IsDBNull(0))
+                                departamento.ID = dataReader.GetInt32(0);
+
+                            if (!dataReader.IsDBNull(1))
+                                departamento.Descricao = dataReader.GetString(1);
+                        }
+                        dataReader.Close();
+                    }
+                    dbConnection.Close();
+                }
+            }
+
+            return departamento;
+        }
+
+        public bool GravarDepartamento(int idDepartamento, string descricao)
+        {
+            int registrosAfetados = -1;
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = idDepartamento == 0 ? "INSERT INTO departamentos (Descricao) VALUES (@Descricao)" : "UPDATE departamentos SET Descricao = @Descricao WHERE ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@Descricao", descricao);
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+
+                    dbConnection.Open();
+                    registrosAfetados = dbCommand.ExecuteNonQuery();
+                    dbConnection.Close();
+                }
+            }
+
+            return (registrosAfetados > 0);
+        }
+
+        public bool ExcluirDepartamento(int idDepartamento)
+        {
+            int registrosAfetados = -1;
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = "DELETE FROM departamentos WHERE ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+
+                    dbConnection.Open();
+                    registrosAfetados = dbCommand.ExecuteNonQuery();
+                    dbConnection.Close();
+                }
+            }
+
+            return (registrosAfetados > 0);
         }
     }
 }
