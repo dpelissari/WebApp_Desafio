@@ -8,19 +8,12 @@ using WebApp_Desafio_BackEnd.Business;
 
 namespace WebApp_Desafio_API.Controllers
 {
-    /// <summary>
-    /// ChamadosController
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class ChamadosController : Controller
     {
         private ChamadosBLL bll = new ChamadosBLL();
 
-        /// <summary>
-        /// Lista todos os chamados
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ChamadoResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -36,12 +29,12 @@ namespace WebApp_Desafio_API.Controllers
                 var lst = from chamado in _lst
                           select new ChamadoResponse()
                           {
-                              id = chamado.ID,
-                              assunto = chamado.Assunto,
-                              solicitante = chamado.Solicitante,
-                              idDepartamento = chamado.IdDepartamento,
-                              departamento = chamado.Departamento,
-                              dataAbertura = chamado.DataAbertura
+                              Id = chamado.ID,
+                              Assunto = chamado.Assunto,
+                              Solicitante = chamado.Solicitante,
+                              IdDepartamento = chamado.IdDepartamento,
+                              Departamento = chamado.Departamento,
+                              DataAbertura = chamado.DataAbertura
                           };
 
                 return Ok(lst);
@@ -60,11 +53,6 @@ namespace WebApp_Desafio_API.Controllers
             }
         }
 
-        /// <summary>
-        /// Obtém dados de um chamado específico
-        /// </summary>
-        /// <param name="idChamado">O ID do chamado a ser obtido</param>
-        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(ChamadoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -79,12 +67,12 @@ namespace WebApp_Desafio_API.Controllers
 
                 var chamado = new ChamadoResponse()
                               {
-                                  id = _chamado.ID,
-                                  assunto = _chamado.Assunto,
-                                  solicitante = _chamado.Solicitante,
-                                  idDepartamento = _chamado.IdDepartamento,
-                                  departamento = _chamado.Departamento,
-                                  dataAbertura = _chamado.DataAbertura
+                                  Id = _chamado.ID,
+                                  Assunto = _chamado.Assunto,
+                                  Solicitante = _chamado.Solicitante,
+                                  IdDepartamento = _chamado.IdDepartamento,
+                                  Departamento = _chamado.Departamento,
+                                  DataAbertura = _chamado.DataAbertura
                               };
 
                 return Ok(chamado);
@@ -103,9 +91,6 @@ namespace WebApp_Desafio_API.Controllers
             }
         }
 
-        /// <summary>
-        /// Grava os dados de um chamado
-        /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -119,12 +104,7 @@ namespace WebApp_Desafio_API.Controllers
                 if (request == null)
                     throw new ArgumentNullException("Request não informado.");
 
-                var resultado = this.bll.GravarChamado(request.id,
-                                                       request.assunto,
-                                                       request.solicitante,
-                                                       request.idDepartamento,
-                                                       request.dataAbertura);
-
+                var resultado = this.bll.GravarChamado(request.Id, request.Assunto, request.Solicitante, request.IdDepartamento, request.DataAbertura);
                 return Ok(resultado);
             }
             catch (ArgumentException ex)
@@ -140,10 +120,7 @@ namespace WebApp_Desafio_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
-        /// <summary>
-        /// Exclui um chamado específico
-        /// </summary>
+
         [HttpDelete]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -155,7 +132,6 @@ namespace WebApp_Desafio_API.Controllers
             try
             {
                 var resultado = this.bll.ExcluirChamado(idChamado);
-
                 return Ok(resultado);
             }
             catch (ArgumentException ex)

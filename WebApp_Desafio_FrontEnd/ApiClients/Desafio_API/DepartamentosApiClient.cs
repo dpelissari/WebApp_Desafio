@@ -36,7 +36,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "TokenAutenticacao", token }
             };
 
-            var response = base.Get($"{urlBase}Listar", headers: headers);
+            var response = base.Get($"{urlBase}Departamentos/Listar", headers: headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -57,7 +57,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idDepartamento", idDepartamento }
             };
 
-            var response = base.Get($"{urlBase}Obter", querys, headers);
+            var response = base.Get($"{urlBase}Departamentos/Obter", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -73,7 +73,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "TokenAutenticacao", token }
             };
 
-            var response = base.Post($"{urlBase}Gravar", departamento, headers);
+            var response = base.Post($"{urlBase}Departamentos/Gravar", departamento, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -94,7 +94,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idDepartamento", idDepartamento }
             };
 
-            var response = base.Delete($"{urlBase}Excluir", querys, headers);
+            var response = base.Delete($"{urlBase}Departamentos/Excluir", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 

@@ -1,35 +1,42 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using WebApp_Desafio_FrontEnd.ViewModels;
 
 namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 {
     public class ChamadosApiClient : BaseClient
     {
-        private const string tokenAutenticacao = "AEEFC184-9F62-4B3E-BB93-BE42BF0FFA36";
-
-        private const string chamadosListUrl = "api/Chamados/Listar";
-        private const string chamadosObterUrl = "api/Chamados/Obter";
-        private const string chamadosGravarUrl = "api/Chamados/Gravar";
-        private const string chamadosExcluirUrl = "api/Chamados/Excluir";
-
-        private string desafioApiUrl = "https://localhost:44388/"; // Endereço API IIS-Express
+        private readonly string token;
+        private readonly string urlBase;
 
         public ChamadosApiClient() : base()
         {
-            //TODO
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+
+            token = config["DesafioApi:TokenAutenticacao"];
+            urlBase = config["DesafioApi:UrlBase"];
+
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Token não configurado no appsettings.");
+
+            if (string.IsNullOrWhiteSpace(urlBase))
+                throw new InvalidOperationException("UrlBase não configurada no appsettings.");
         }
 
-        public List<ChamadoViewModel> ChamadosListar()
+        public List<ChamadoViewModel> Listar()
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", token }
             };
 
-            var querys = default(Dictionary<string, object>); // Não há parâmetros para essa chamada
-
-            var response = base.Get($"{desafioApiUrl}{chamadosListUrl}", querys, headers);
+            var response = base.Get($"{urlBase}Chamados/Listar", headers: headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -38,11 +45,11 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
             return JsonConvert.DeserializeObject<List<ChamadoViewModel>>(json);
         }
 
-        public ChamadoViewModel ChamadoObter(int idChamado)
+        public ChamadoViewModel Obter(int idChamado)
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", token }
             };
 
             var querys = new Dictionary<string, object>()
@@ -50,7 +57,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idChamado", idChamado }
             };
 
-            var response = base.Get($"{desafioApiUrl}{chamadosObterUrl}", querys, headers);
+            var response = base.Get($"{urlBase}Chamados/Obter", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -59,14 +66,14 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
             return JsonConvert.DeserializeObject<ChamadoViewModel>(json);
         }
 
-        public bool ChamadoGravar(ChamadoViewModel chamado)
+        public bool Gravar(ChamadoViewModel chamado)
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", token }
             };
 
-            var response = base.Post($"{desafioApiUrl}{chamadosGravarUrl}", chamado, headers);
+            var response = base.Post($"{urlBase}Chamados/Gravar", chamado, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -75,11 +82,11 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
             return JsonConvert.DeserializeObject<bool>(json);
         }
 
-        public bool ChamadoExcluir(int idChamado)
+        public bool Excluir(int idChamado)
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", token }
             };
 
             var querys = new Dictionary<string, object>()
@@ -87,7 +94,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idChamado", idChamado }
             };
 
-            var response = base.Delete($"{desafioApiUrl}{chamadosExcluirUrl}", querys, headers);
+            var response = base.Delete($"{urlBase}Chamados/Excluir", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -95,6 +102,5 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 
             return JsonConvert.DeserializeObject<bool>(json);
         }
-
     }
 }

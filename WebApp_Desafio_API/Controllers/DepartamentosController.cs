@@ -29,8 +29,8 @@ namespace WebApp_Desafio_API.Controllers
                 var lst = from departamento in _lst
                           select new DepartamentoResponse()
                           {
-                              id = departamento.ID,
-                              descricao = departamento.Descricao,
+                              Id = departamento.ID,
+                              Descricao = departamento.Descricao,
                           };
 
                 return Ok(lst);
@@ -63,8 +63,8 @@ namespace WebApp_Desafio_API.Controllers
 
                 var departamento = new DepartamentoResponse()
                 {
-                    id = _departamento.ID,
-                    descricao = _departamento.Descricao,
+                    Id = _departamento.ID,
+                    Descricao = _departamento.Descricao,
                 };
 
                 return Ok(departamento);
@@ -96,7 +96,7 @@ namespace WebApp_Desafio_API.Controllers
                 if (request == null)
                     throw new ArgumentNullException("Request não informado.");
 
-                var resultado = this.bll.GravarDepartamento(request.id, request.descricao);
+                var resultado = this.bll.GravarDepartamento(request.Id, request.Descricao);
 
                 return Ok(resultado);
             }

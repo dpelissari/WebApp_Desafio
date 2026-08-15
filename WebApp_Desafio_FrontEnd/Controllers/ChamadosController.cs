@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using WebApp_Desafio_FrontEnd.ApiClients.Desafio_API;
 using WebApp_Desafio_FrontEnd.ViewModels;
 using WebApp_Desafio_FrontEnd.ViewModels.Enums;
 using AspNetCore.Reporting;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
 namespace WebApp_Desafio_FrontEnd.Controllers
 {
@@ -40,7 +37,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             try
             {
                 var chamadosApiClient = new ChamadosApiClient();
-                var lstChamados = chamadosApiClient.ChamadosListar();
+                var lstChamados = chamadosApiClient.Listar();
 
                 var dataTableVM = new DataTableAjaxViewModel()
                 {
@@ -85,14 +82,10 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             try
             {
                 var chamadosApiClient = new ChamadosApiClient();
-                var realizadoComSucesso = chamadosApiClient.ChamadoGravar(chamadoVM);
+                var realizadoComSucesso = chamadosApiClient.Gravar(chamadoVM);
 
                 if (realizadoComSucesso)
-                    return Ok(new ResponseViewModel(
-                                $"Chamado gravado com sucesso!",
-                                AlertTypes.success,
-                                this.RouteData.Values["controller"].ToString(),
-                                nameof(this.Listar)));
+                    return Ok(new ResponseViewModel($"Chamado gravado com sucesso!", AlertTypes.success, this.RouteData.Values["controller"].ToString(), nameof(this.Listar)));
                 else
                     throw new ApplicationException($"Falha ao excluir o Chamado.");
             }
@@ -110,7 +103,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             try
             {
                 var chamadosApiClient = new ChamadosApiClient();
-                var chamadoVM = chamadosApiClient.ChamadoObter(id);
+                var chamadoVM = chamadosApiClient.Obter(id);
 
                 var departamentosApiClient = new DepartamentosApiClient();
                 ViewData["ListaDepartamentos"] = departamentosApiClient.Listar();
@@ -129,14 +122,10 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             try
             {
                 var chamadosApiClient = new ChamadosApiClient();
-                var realizadoComSucesso = chamadosApiClient.ChamadoExcluir(id);
+                var realizadoComSucesso = chamadosApiClient.Excluir(id);
 
                 if (realizadoComSucesso)
-                    return Ok(new ResponseViewModel(
-                                $"Chamado {id} excluído com sucesso!",
-                                AlertTypes.success,
-                                "Chamados",
-                                nameof(Listar)));
+                    return Ok(new ResponseViewModel($"Chamado {id} excluído com sucesso!", AlertTypes.success, "Chamados", nameof(Listar)));
                 else
                     throw new ApplicationException($"Falha ao excluir o Chamado {id}.");
             }
@@ -160,7 +149,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
 
             // Carrega os dados que serão apresentados no relatório
             var chamadosApiClient = new ChamadosApiClient();
-            var lstChamados = chamadosApiClient.ChamadosListar();
+            var lstChamados = chamadosApiClient.Listar();
 
             localReport.AddDataSource("dsChamados", lstChamados);
 
