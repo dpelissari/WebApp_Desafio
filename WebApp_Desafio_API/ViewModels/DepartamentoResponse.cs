@@ -1,20 +1,9 @@
-﻿using System;
-
-namespace WebApp_Desafio_API.ViewModels
+﻿namespace WebApp_Desafio_API.ViewModels
 {
-    /// <summary>
-    /// Resposta da chamada
-    /// </summary>
     public class DepartamentoResponse
     {
-        /// <summary>
-        /// ID do Departamento
-        /// </summary>
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        /// <summary>
-        /// Descrição do Departamento
-        /// </summary>
-        public string descricao { get; set; }
+        public string Descricao { get; set; }
     }
 }
