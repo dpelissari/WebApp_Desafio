@@ -29,7 +29,7 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
         {
             Type = AlertTypes.error;
             Action = "Error";
-            Message = exception.Message;
+            Message = exception.Message?.Trim('"');
         }
     }
 }
