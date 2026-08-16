@@ -1,14 +1,21 @@
 ﻿$(document).ready(function () {
 
-    $('.glyphicon-calendar').closest("div.date").datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: false,
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        language: 'pt-BR'
-    });
+    var isNovo = !$('#ID').val() || $('#ID').val() === '0';
+
+    if (isNovo) {
+        $('.glyphicon-calendar').closest("div.date").datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: false,
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            language: 'pt-BR',
+            startDate: new Date()
+        });
+    } else {
+        $('#DataAbertura').prop('readonly', true);
+    }
 
     var $solicitante = $('#Solicitante');
     var solicitantes = $solicitante.data('solicitantes') || [];

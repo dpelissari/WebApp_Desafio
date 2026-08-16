@@ -42,8 +42,7 @@
             <div class="row">
                 <div class="form-group col-lg-3 col-md-4 col-sm-6">
                     <label class="form-label" asp-for="DataAbertura"></label>
-
-                    <div class="input-group date" data-provide="datepicker">
+                    <div class="input-group date">
                         <input type="text" class="form-control" asp-for="DataAbertura" asp-format="{0:dd/MM/yyyy}" />
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
@@ -51,7 +50,6 @@
                     </div>
                     <span class="text-danger" asp-validation-for="DataAbertura"></span>
                 </div>
-
             </div>
         </form>
     </div>

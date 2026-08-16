@@ -21,7 +21,7 @@ namespace WebApp_Desafio_BackEnd.Business
 
         public bool Gravar(int idChamado, string assunto, string solicitante, int idDepartamento, DateTime dataAbertura)
         {
-            if (dataAbertura.Date < DateTime.Today)
+            if (idChamado == 0 && dataAbertura.Date < DateTime.Today)
                 throw new ApplicationException("Não é permitido gravar chamado com data retroativa.");
 
             return _dal.Gravar(idChamado, assunto, solicitante, idDepartamento, dataAbertura);
