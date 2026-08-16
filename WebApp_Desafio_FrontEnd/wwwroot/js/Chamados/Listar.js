@@ -46,53 +46,55 @@
 
     $('#btnEditar').click(function () {
         var data = table.row('.selected').data();
+        if (!data) {
+            Swal.fire({ type: "warning", text: "Selecione um registro para continuar." });
+            return;
+        }
+
         window.location.href = config.contextPath + 'Chamados/Editar/' + data.ID;
     });
 
     $('#btnExcluir').click(function () {
-
-        let data = table.row('.selected').data();
-        let idRegistro = data.ID;
-        if (!idRegistro || idRegistro <= 0) {
+        var data = table.row('.selected').data();
+        if (!data) {
+            Swal.fire({ type: "warning", text: "Selecione um registro para continuar." });
             return;
         }
 
-        if (idRegistro) {
-            Swal.fire({
-                text: "Tem certeza de que deseja excluir " + data.Assunto + " ?",
-                type: "warning",
-                showCancelButton: true,
-            }).then(function (result) {
+        Swal.fire({
+            text: "Tem certeza de que deseja excluir " + data.Assunto + " ?",
+            type: "warning",
+            showCancelButton: true,
+        }).then(function (result) {
 
-                if (result.value) {
-                    $.ajax({
-                        url: config.contextPath + 'Chamados/Excluir/' + idRegistro,
-                        type: 'DELETE',
-                        contentType: 'application/json',
-                        error: function (result) {
+            if (result.value) {
+                $.ajax({
+                    url: config.contextPath + 'Chamados/Excluir/' + data.ID,
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    error: function (result) {
 
-                            Swal.fire({
-                                text: result.responseJSON.Message,
-                                confirmButtonText: 'OK',
-                                icon: 'error'
-                            });
+                        Swal.fire({
+                            text: result.responseJSON.Message,
+                            confirmButtonText: 'OK',
+                            icon: 'error'
+                        });
 
-                        },
-                        success: function (result) {
+                    },
+                    success: function (result) {
 
-                            Swal.fire({
-                                type: result.Type,
-                                title: result.Title,
-                                text: result.Message,
-                            }).then(function () {
-                                table.draw();
-                            });
-                        }
-                    });
-                }
+                        Swal.fire({
+                            type: result.Type,
+                            title: result.Title,
+                            text: result.Message,
+                        }).then(function () {
+                            table.draw();
+                        });
+                    }
+                });
+            }
 
-            });
-        }
+        });
     });
 
 });
