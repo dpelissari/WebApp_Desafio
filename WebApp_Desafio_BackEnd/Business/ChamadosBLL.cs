@@ -31,5 +31,10 @@ namespace WebApp_Desafio_BackEnd.Business
         {
             return _dal.Excluir(idChamado);
         }
+
+        public IEnumerable<string> Solicitantes()
+        {
+            return _dal.Solicitantes();
+        }
     }
 }

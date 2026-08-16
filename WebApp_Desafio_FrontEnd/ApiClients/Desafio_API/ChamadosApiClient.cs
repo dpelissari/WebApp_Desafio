@@ -102,5 +102,21 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 
             return JsonConvert.DeserializeObject<bool>(json);
         }
+
+        public List<string> Solicitantes()
+        {
+            var headers = new Dictionary<string, object>()
+            {
+                { "TokenAutenticacao", _token }
+            };
+
+            var response = base.Get($"{_urlBase}Chamados/Solicitantes", headers: headers);
+
+            base.EnsureSuccessStatusCode(response);
+
+            string json = base.ReadHttpWebResponseMessage(response);
+
+            return JsonConvert.DeserializeObject<List<string>>(json);
+        }
     }
 }

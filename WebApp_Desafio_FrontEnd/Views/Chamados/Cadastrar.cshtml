@@ -19,9 +19,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-lg-7 col-md-6 col-sm-12">
+                <div class="form-group col-lg-7 col-md-6 col-sm-12 solicitante-grupo">
                     <label class="form-label" asp-for="Solicitante"></label>
-                    <input type="text" class="form-control" asp-for="Solicitante">
+                    <input type="text" class="form-control" asp-for="Solicitante" autocomplete="off"
+                           data-solicitantes='@Html.Raw(Json.Serialize(ViewData["ListaSolicitantes"] as List<string> ?? new List<string>()))'>
                     <span class="text-danger" asp-validation-for="Solicitante"></span>
                 </div>
             </div>
@@ -68,6 +69,12 @@
 
 @section styles {
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <style>
+        .solicitante-grupo { position: relative; }
+        .solicitante-sugestoes { position: absolute; left: 15px; right: 15px; z-index: 10; margin: 0; padding: 0; list-style: none; background: #fff; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; }
+        .solicitante-sugestoes li { padding: 8px 12px; cursor: pointer; }
+        .solicitante-sugestoes li:hover { background: #337ab7; color: #fff; }
+    </style>
 }
 
 @section scripts {

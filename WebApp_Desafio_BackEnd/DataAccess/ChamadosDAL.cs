@@ -177,5 +177,38 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             }
             return (registrosAfetados > 0);
         }
+
+        public IEnumerable<string> Solicitantes()
+        {
+            IList<string> lstSolicitantes = new List<string>();
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText =
+                        "SELECT DISTINCT Solicitante " +
+                        "FROM chamados " +
+                        "WHERE Solicitante IS NOT NULL " +
+                        "  AND Solicitante <> '' " +
+                        "ORDER BY Solicitante";
+
+                    dbConnection.Open();
+
+                    using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (!dataReader.IsDBNull(0))
+                                lstSolicitantes.Add(dataReader.GetString(0));
+                        }
+                        dataReader.Close();
+                    }
+                    dbConnection.Close();
+                }
+            }
+
+            return lstSolicitantes;
+        }
     }
 }

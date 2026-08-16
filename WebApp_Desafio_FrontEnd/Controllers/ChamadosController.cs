@@ -64,8 +64,10 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             try
             {
                 var departamentosApiClient = new DepartamentosApiClient();
-
                 ViewData["ListaDepartamentos"] = departamentosApiClient.Listar();
+
+                var chamadosApiClient = new ChamadosApiClient();
+                ViewData["ListaSolicitantes"] = chamadosApiClient.Solicitantes();
             }
             catch (Exception ex)
             {
@@ -106,6 +108,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
 
                 var departamentosApiClient = new DepartamentosApiClient();
                 ViewData["ListaDepartamentos"] = departamentosApiClient.Listar();
+                ViewData["ListaSolicitantes"] = chamadosApiClient.Solicitantes();
 
                 return View("Cadastrar", chamadoVM);
             }
