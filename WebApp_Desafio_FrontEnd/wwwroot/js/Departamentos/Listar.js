@@ -7,6 +7,7 @@
         searching: false,
         processing: true,
         serverSide: true,
+        autoWidth: false,
         ajax: config.contextPath + 'Departamentos/Datatable',
         columns: [
             { data: 'ID' },
