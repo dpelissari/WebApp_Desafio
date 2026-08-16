@@ -14,14 +14,14 @@
             <div class="row">
                 <div class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label class="form-label" asp-for="Assunto"></label>
-                    <input type="text" class="form-control" asp-for="Assunto">
+                    <input type="text" class="form-control" asp-for="Assunto" maxlength="200">
                     <span class="text-danger" asp-validation-for="Assunto"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-7 col-md-6 col-sm-12 solicitante-grupo">
                     <label class="form-label" asp-for="Solicitante"></label>
-                    <input type="text" class="form-control" asp-for="Solicitante" autocomplete="off"
+                    <input type="text" class="form-control" asp-for="Solicitante" autocomplete="off" maxlength="100"
                            data-solicitantes='@Html.Raw(Json.Serialize(ViewData["ListaSolicitantes"] as List<string> ?? new List<string>()))'>
                     <span class="text-danger" asp-validation-for="Solicitante"></span>
                 </div>

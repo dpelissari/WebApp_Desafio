@@ -17,7 +17,7 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
         [Display(Name = "Assunto")]
         [DataMember(Name = "Assunto")]
         [Required(ErrorMessage = "O Assunto é obrigatório.")]
-        [StringLength(200, ErrorMessage = "O Assunto deve ter no máximo 200 caracteres.")]
+        [StringLength(200, MinimumLength = 3, ErrorMessage = "O Assunto deve ter entre 3 e 200 caracteres.")]
         public string Assunto { get; set; }
 
         [Display(Name = "Solicitante")]
