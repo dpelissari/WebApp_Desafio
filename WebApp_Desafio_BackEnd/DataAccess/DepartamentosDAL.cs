@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using WebApp_Desafio_BackEnd.Models;
 
@@ -93,6 +94,21 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             }
 
             return (registrosAfetados > 0);
+        }
+
+        public bool PossuiChamados(int idDepartamento)
+        {
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = "SELECT COUNT(1) FROM chamados WHERE IdDepartamento = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+                    dbConnection.Open();
+
+                    return Convert.ToInt32(dbCommand.ExecuteScalar()) > 0;
+                }
+            }
         }
 
         public bool Excluir(int idDepartamento)

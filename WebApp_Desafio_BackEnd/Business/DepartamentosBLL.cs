@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WebApp_Desafio_BackEnd.DataAccess;
 using WebApp_Desafio_BackEnd.Models;
 
@@ -25,6 +26,9 @@ namespace WebApp_Desafio_BackEnd.Business
 
         public bool Excluir(int idDepartamento)
         {
+            if (_dal.PossuiChamados(idDepartamento))
+                throw new ApplicationException("Não é permitido excluir departamento vinculado a chamados.");
+
             return _dal.Excluir(idDepartamento);
         }
     }
