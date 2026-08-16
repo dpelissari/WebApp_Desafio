@@ -6,7 +6,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
 {
     public class DepartamentosDAL : BaseDAL
     {
-        public IEnumerable<Departamento> ListarDepartamentos()
+        public IEnumerable<Departamento> Listar()
         {
             IList<Departamento> lstDepartamentos = new List<Departamento>();
 
@@ -14,16 +14,14 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-                    dbCommand.CommandText = "SELECT * FROM departamentos ";
+                    dbCommand.CommandText = "SELECT ID, Descricao FROM departamentos";
                     dbConnection.Open();
 
                     using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
                     {
-                        var departamento = Departamento.Empty;
-
                         while (dataReader.Read())
                         {
-                            departamento = new Departamento();
+                            var departamento = new Departamento();
 
                             if (!dataReader.IsDBNull(0))
                                 departamento.ID = dataReader.GetInt32(0);
@@ -43,9 +41,9 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             return lstDepartamentos;
         }
 
-        public Departamento ObterDepartamento(int idDepartamento)
+        public Departamento Obter(int idDepartamento)
         {
-            var departamento = new Departamento();
+            var departamento = Departamento.Empty;
 
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
@@ -76,7 +74,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             return departamento;
         }
 
-        public bool GravarDepartamento(int idDepartamento, string descricao)
+        public bool Gravar(int idDepartamento, string descricao)
         {
             int registrosAfetados = -1;
 
@@ -97,7 +95,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             return (registrosAfetados > 0);
         }
 
-        public bool ExcluirDepartamento(int idDepartamento)
+        public bool Excluir(int idDepartamento)
         {
             int registrosAfetados = -1;
 

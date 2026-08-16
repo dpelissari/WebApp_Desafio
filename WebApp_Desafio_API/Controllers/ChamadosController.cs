@@ -12,7 +12,7 @@ namespace WebApp_Desafio_API.Controllers
     [Route("api/[controller]")]
     public class ChamadosController : Controller
     {
-        private ChamadosBLL bll = new ChamadosBLL();
+        private readonly ChamadosBLL _bll = new ChamadosBLL();
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ChamadoResponse>), StatusCodes.Status200OK)]
@@ -24,9 +24,9 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var _lst = this.bll.ListarChamados();
+                var chamados = _bll.Listar();
 
-                var lst = from chamado in _lst
+                var lst = from chamado in chamados
                           select new ChamadoResponse()
                           {
                               Id = chamado.ID,
@@ -63,19 +63,19 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var _chamado = this.bll.ObterChamado(idChamado);
+                var chamado = _bll.Obter(idChamado);
 
-                var chamado = new ChamadoResponse()
-                              {
-                                  Id = _chamado.ID,
-                                  Assunto = _chamado.Assunto,
-                                  Solicitante = _chamado.Solicitante,
-                                  IdDepartamento = _chamado.IdDepartamento,
-                                  Departamento = _chamado.Departamento,
-                                  DataAbertura = _chamado.DataAbertura
-                              };
+                var resposta = new ChamadoResponse()
+                {
+                    Id = chamado.ID,
+                    Assunto = chamado.Assunto,
+                    Solicitante = chamado.Solicitante,
+                    IdDepartamento = chamado.IdDepartamento,
+                    Departamento = chamado.Departamento,
+                    DataAbertura = chamado.DataAbertura
+                };
 
-                return Ok(chamado);
+                return Ok(resposta);
             }
             catch (ArgumentException ex)
             {
@@ -104,7 +104,7 @@ namespace WebApp_Desafio_API.Controllers
                 if (request == null)
                     throw new ArgumentNullException("Request não informado.");
 
-                var resultado = this.bll.GravarChamado(request.Id, request.Assunto, request.Solicitante, request.IdDepartamento, request.DataAbertura);
+                var resultado = _bll.Gravar(request.Id, request.Assunto, request.Solicitante, request.IdDepartamento, request.DataAbertura);
                 return Ok(resultado);
             }
             catch (ArgumentException ex)
@@ -131,7 +131,7 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var resultado = this.bll.ExcluirChamado(idChamado);
+                var resultado = _bll.Excluir(idChamado);
                 return Ok(resultado);
             }
             catch (ArgumentException ex)

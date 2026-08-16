@@ -27,7 +27,6 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpGet]
         public IActionResult Listar()
         {
-            // Busca de dados está na Action Datatable()
             return View();
         }
 
@@ -121,8 +120,6 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpGet]
         public IActionResult Report()
         {
-            string mimeType = string.Empty;
-            int extension = 1;
             string contentRootPath = _hostEnvironment.ContentRootPath;
             string path = Path.Combine(contentRootPath, "wwwroot", "reports", "rptDepartamentos.rdlc");
 

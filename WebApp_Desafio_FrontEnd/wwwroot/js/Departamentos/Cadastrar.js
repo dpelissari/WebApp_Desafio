@@ -8,8 +8,6 @@ $(document).ready(function () {
         }).then(function (result) {
             if (result.value) {
                 history.back();
-            } else {
-                console.log("Cancelou a inclusão.");
             }
         });
     });

@@ -12,7 +12,7 @@ namespace WebApp_Desafio_API.Controllers
     [Route("api/[controller]")]
     public class DepartamentosController : Controller
     {
-        private DepartamentosBLL bll = new DepartamentosBLL();
+        private readonly DepartamentosBLL _bll = new DepartamentosBLL();
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DepartamentoResponse>), StatusCodes.Status200OK)]
@@ -24,9 +24,9 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var _lst = this.bll.ListarDepartamentos();
+                var departamentos = _bll.Listar();
 
-                var lst = from departamento in _lst
+                var lst = from departamento in departamentos
                           select new DepartamentoResponse()
                           {
                               Id = departamento.ID,
@@ -59,15 +59,15 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var _departamento = this.bll.ObterDepartamento(idDepartamento);
+                var departamento = _bll.Obter(idDepartamento);
 
-                var departamento = new DepartamentoResponse()
+                var resposta = new DepartamentoResponse()
                 {
-                    Id = _departamento.ID,
-                    Descricao = _departamento.Descricao,
+                    Id = departamento.ID,
+                    Descricao = departamento.Descricao,
                 };
 
-                return Ok(departamento);
+                return Ok(resposta);
             }
             catch (ArgumentException ex)
             {
@@ -96,8 +96,7 @@ namespace WebApp_Desafio_API.Controllers
                 if (request == null)
                     throw new ArgumentNullException("Request não informado.");
 
-                var resultado = this.bll.GravarDepartamento(request.Id, request.Descricao);
-
+                var resultado = _bll.Gravar(request.Id, request.Descricao);
                 return Ok(resultado);
             }
             catch (ArgumentException ex)
@@ -124,8 +123,7 @@ namespace WebApp_Desafio_API.Controllers
         {
             try
             {
-                var resultado = this.bll.ExcluirDepartamento(idDepartamento);
-
+                var resultado = _bll.Excluir(idDepartamento);
                 return Ok(resultado);
             }
             catch (ArgumentException ex)

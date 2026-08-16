@@ -9,8 +9,8 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 {
     public class DepartamentosApiClient : BaseClient
     {
-        private readonly string token;
-        private readonly string urlBase;
+        private readonly string _token;
+        private readonly string _urlBase;
 
         public DepartamentosApiClient() : base()
         {
@@ -19,13 +19,13 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
 
-            token = config["DesafioApi:TokenAutenticacao"];
-            urlBase = config["DesafioApi:UrlBase"];
+            _token = config["DesafioApi:TokenAutenticacao"];
+            _urlBase = config["DesafioApi:UrlBase"];
 
-            if (string.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(_token))
                 throw new InvalidOperationException("Token não configurado no appsettings.");
 
-            if (string.IsNullOrWhiteSpace(urlBase))
+            if (string.IsNullOrWhiteSpace(_urlBase))
                 throw new InvalidOperationException("UrlBase não configurada no appsettings.");
         }
 
@@ -33,10 +33,10 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", token }
+                { "TokenAutenticacao", _token }
             };
 
-            var response = base.Get($"{urlBase}Departamentos/Listar", headers: headers);
+            var response = base.Get($"{_urlBase}Departamentos/Listar", headers: headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -49,7 +49,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", token }
+                { "TokenAutenticacao", _token }
             };
 
             var querys = new Dictionary<string, object>()
@@ -57,7 +57,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idDepartamento", idDepartamento }
             };
 
-            var response = base.Get($"{urlBase}Departamentos/Obter", querys, headers);
+            var response = base.Get($"{_urlBase}Departamentos/Obter", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -70,10 +70,10 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", token }
+                { "TokenAutenticacao", _token }
             };
 
-            var response = base.Post($"{urlBase}Departamentos/Gravar", departamento, headers);
+            var response = base.Post($"{_urlBase}Departamentos/Gravar", departamento, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -86,7 +86,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", token }
+                { "TokenAutenticacao", _token }
             };
 
             var querys = new Dictionary<string, object>()
@@ -94,7 +94,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idDepartamento", idDepartamento }
             };
 
-            var response = base.Delete($"{urlBase}Departamentos/Excluir", querys, headers);
+            var response = base.Delete($"{_urlBase}Departamentos/Excluir", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 

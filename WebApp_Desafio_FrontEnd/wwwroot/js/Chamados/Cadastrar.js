@@ -18,8 +18,6 @@
         }).then(function (result) {
             if (result.value) {
                 history.back();
-            } else {
-                console.log("Cancelou a inclusão.");
             }
         });
     });
@@ -33,7 +31,6 @@
 
         let chamado = SerielizeForm($('#form'));
         let url = $('#form').attr('action');
-        //debugger;
 
         $.ajax({
             type: "POST",

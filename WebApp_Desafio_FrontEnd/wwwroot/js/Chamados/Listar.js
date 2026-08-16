@@ -88,8 +88,6 @@
                             });
                         }
                     });
-                } else {
-                    console.log("Cancelou a exclusão.");
                 }
 
             });

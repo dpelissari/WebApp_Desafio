@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,27 +13,16 @@ namespace WebApp_Desafio_API
 {
     public class Startup
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="env"></param>
-        /// <param name="configuration"></param>
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             Configuration = configuration;
             CurrentEnvironment = env;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public IConfiguration Configuration { get; }
-        /// <summary>
-        /// 
-        /// </summary>
+
         public IHostingEnvironment CurrentEnvironment { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -48,9 +36,7 @@ namespace WebApp_Desafio_API
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                //options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddSwaggerGen(c =>
@@ -78,12 +64,6 @@ namespace WebApp_Desafio_API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -106,8 +86,7 @@ namespace WebApp_Desafio_API
             });
             
             swaggerPath = swaggerPath.Replace("{documentname}", "v1");
-            
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint(swaggerPath, "WebApp_Desafio_API V1");

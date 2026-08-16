@@ -7,26 +7,29 @@ namespace WebApp_Desafio_BackEnd.Business
 {
     public class ChamadosBLL
     {
-        private ChamadosDAL dal = new ChamadosDAL();
+        private readonly ChamadosDAL _dal = new ChamadosDAL();
 
-        public IEnumerable<Chamado> ListarChamados()
+        public IEnumerable<Chamado> Listar()
         {
-            return dal.ListarChamados();
+            return _dal.Listar();
         }
 
-        public Chamado ObterChamado(int idChamado)
+        public Chamado Obter(int idChamado)
         {
-            return dal.ObterChamado(idChamado);
+            return _dal.Obter(idChamado);
         }
 
-        public bool GravarChamado(int ID, string Assunto, string Solicitante, int IdDepartamento, DateTime DataAbertura)
+        public bool Gravar(int idChamado, string assunto, string solicitante, int idDepartamento, DateTime dataAbertura)
         {
-            return dal.GravarChamado(ID, Assunto, Solicitante, IdDepartamento, DataAbertura);
+            if (dataAbertura.Date < DateTime.Today)
+                throw new ApplicationException("Não é permitido gravar chamado com data retroativa.");
+
+            return _dal.Gravar(idChamado, assunto, solicitante, idDepartamento, dataAbertura);
         }
 
-        public bool ExcluirChamado(int idChamado)
+        public bool Excluir(int idChamado)
         {
-            return dal.ExcluirChamado(idChamado);
+            return _dal.Excluir(idChamado);
         }
     }
 }

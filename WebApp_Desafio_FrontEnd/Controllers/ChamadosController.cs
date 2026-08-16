@@ -27,7 +27,6 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpGet]
         public IActionResult Listar()
         {
-            // Busca de dados está na Action Datatable()
             return View();
         }
 
@@ -87,7 +86,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
                 if (realizadoComSucesso)
                     return Ok(new ResponseViewModel($"Chamado gravado com sucesso!", AlertTypes.success, this.RouteData.Values["controller"].ToString(), nameof(this.Listar)));
                 else
-                    throw new ApplicationException($"Falha ao excluir o Chamado.");
+                    throw new ApplicationException($"Falha ao gravar o Chamado.");
             }
             catch (Exception ex)
             {
@@ -98,7 +97,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpGet]
         public IActionResult Editar([FromRoute] int id)
         {
-            ViewData["Title"] = "Cadastrar Novo Chamado";
+            ViewData["Title"] = "Editar Chamado";
 
             try
             {
@@ -138,27 +137,19 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         [HttpGet]
         public IActionResult Report()
         {
-            string mimeType = string.Empty;
-            int extension = 1;
             string contentRootPath = _hostEnvironment.ContentRootPath;
             string path = Path.Combine(contentRootPath, "wwwroot", "reports", "rptChamados.rdlc");
-            //
-            // ... parameters
-            //
+
             LocalReport localReport = new LocalReport(path);
 
-            // Carrega os dados que serão apresentados no relatório
             var chamadosApiClient = new ChamadosApiClient();
             var lstChamados = chamadosApiClient.Listar();
 
             localReport.AddDataSource("dsChamados", lstChamados);
 
-            // Renderiza o relatório em PDF
             ReportResult reportResult = localReport.Execute(RenderType.Pdf);
 
-            //return File(reportResult.MainStream, "application/pdf");
             return File(reportResult.MainStream, "application/octet-stream", "rptChamados.pdf");
         }
-
     }
 }

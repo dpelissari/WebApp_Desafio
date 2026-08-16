@@ -6,26 +6,26 @@ namespace WebApp_Desafio_BackEnd.Business
 {
     public class DepartamentosBLL
     {
-        private DepartamentosDAL dal = new DepartamentosDAL();
+        private readonly DepartamentosDAL _dal = new DepartamentosDAL();
 
-        public IEnumerable<Departamento> ListarDepartamentos()
+        public IEnumerable<Departamento> Listar()
         {
-            return dal.ListarDepartamentos();
+            return _dal.Listar();
         }
 
-        public Departamento ObterDepartamento(int idDepartamento)
+        public Departamento Obter(int idDepartamento)
         {
-            return dal.ObterDepartamento(idDepartamento);
+            return _dal.Obter(idDepartamento);
         }
 
-        public bool GravarDepartamento(int id, string descricao)
+        public bool Gravar(int idDepartamento, string descricao)
         {
-            return dal.GravarDepartamento(id, descricao);
+            return _dal.Gravar(idDepartamento, descricao);
         }
 
-        public bool ExcluirDepartamento(int idDepartamento)
+        public bool Excluir(int idDepartamento)
         {
-            return dal.ExcluirDepartamento(idDepartamento);
+            return _dal.Excluir(idDepartamento);
         }
     }
 }
